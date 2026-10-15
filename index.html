@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kya Pehnu | AI Smart Wardrobe & Personal Outfit Stylist</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Google Stitch Color & Styling Overrides -->
+  <link rel="stylesheet" href="styles.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            indigo: '#131e3a',
+            terracotta: '#c86d51',
+            gold: '#d4af37',
+            cream: '#faf7f2',
+            surface: '#fcf9f4'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#faf7f2] text-[#1c1c19] min-h-screen selection:bg-[#c86d51] selection:text-white">
+
+  <!-- TOP WEATHER & COMFORT INTELLIGENCE TICKER -->
+  <div class="bg-[#131e3a] text-white text-xs font-mono py-2.5 px-4 flex flex-wrap justify-between items-center">
+    <div class="flex items-center gap-3">
+      <span class="inline-flex items-center text-[#d4af37] font-bold">
+        <i class="fas fa-sun text-amber-400 mr-2 animate-spin-slow"></i>
+        LIVE WEATHER SYNC: 27°C SUNNY (MUMBAI)
+      </span>
+      <span class="hidden md:inline text-stone-400">|</span>
+      <span class="hidden md:inline text-stone-200">Textile Recommendation: <strong class="text-[#ffb59f]">Breathable Fine Cottons &amp; Georgette Layering</strong></span>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="text-stone-300"><i class="fas fa-sparkles text-amber-400 mr-1"></i> AI Match Accuracy: <strong class="text-white">98.4%</strong></span>
+      <button onclick="triggerQuickStylist()" class="text-[#d4af37] hover:underline hidden sm:inline font-bold">
+        <i class="fas fa-wand-magic-sparkles mr-1"></i> "Kya Pehnu Aaj?"
+      </button>
+    </div>
+  </div>
+
+  <!-- FASHION NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-[#faf7f2]/90 backdrop-blur-md border-b border-[#e5e2dd]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo Branding -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-11 h-11 rounded-full bg-[#131e3a] flex items-center justify-center text-white font-headline font-bold text-xl shadow-md group-hover:bg-[#c86d51] transition-colors">
+            <i class="fas fa-shirt text-amber-400"></i>
+          </div>
+          <div>
+            <span class="font-headline font-black text-2xl tracking-tight text-[#131e3a] block leading-none">KYA <span class="text-[#c86d51]">PEHNU</span></span>
+            <span class="font-mono text-[10px] text-[#97472e] tracking-widest uppercase block mt-0.5">AI Smart Wardrobe &amp; Stylist</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-[#1c1c19]">
+          <a href="#hero" class="hover:text-[#c86d51] transition-colors">AI Studio</a>
+          <a href="#closet" class="hover:text-[#c86d51] transition-colors">Digital Closet</a>
+          <a href="#lookbook" class="hover:text-[#c86d51] transition-colors">Shop The Look</a>
+          <a href="#analytics" class="hover:text-[#c86d51] transition-colors">Wardrobe Health</a>
+        </nav>
+
+        <!-- CTA & Quick Trigger -->
+        <div class="hidden sm:flex items-center gap-4">
+          <button onclick="triggerQuickStylist()" class="px-5 py-2.5 bg-[#c86d51] hover:bg-[#97472e] text-white font-medium text-xs uppercase tracking-wider rounded-full shadow-md transition-all flex items-center gap-2">
+            <i class="fas fa-sparkles"></i>
+            <span>Stylist AI</span>
+          </button>
+        </div>
+
+        <!-- Mobile Drawer Toggle -->
+        <div class="md:hidden">
+          <button id="mobile-nav-btn" class="p-2 text-stone-800 text-xl">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-nav" class="hidden md:hidden bg-white border-b border-[#e5e2dd] px-4 pt-2 pb-6 space-y-3 font-medium text-sm">
+      <a href="#hero" class="block py-2 text-stone-800 hover:text-[#c86d51]">AI Studio</a>
+      <a href="#closet" class="block py-2 text-stone-800 hover:text-[#c86d51]">Digital Closet</a>
+      <a href="#lookbook" class="block py-2 text-stone-800 hover:text-[#c86d51]">Shop The Look</a>
+      <a href="#analytics" class="block py-2 text-stone-800 hover:text-[#c86d51]">Wardrobe Health</a>
+      <div class="pt-2">
+        <button onclick="triggerQuickStylist()" class="w-full py-2.5 bg-[#c86d51] text-white font-bold rounded-full text-center">
+          Ask "Kya Pehnu Aaj?"
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO & AI OUTFIT SYNTHESIZER SECTION -->
+  <section id="hero" class="py-12 md:py-20 border-b border-[#e5e2dd] bg-gradient-to-b from-[#faf7f2] to-[#f6f3ee]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Hero Content & Controls -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#c86d51]/10 border border-[#c86d51]/30 text-[#c86d51] font-mono text-xs">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <span>AI Wardrobe Intelligence • Instant Outfit Curation</span>
+          </div>
+
+          <h1 class="font-headline font-bold text-4xl sm:text-5xl lg:text-6xl text-[#131e3a] tracking-tight leading-tight">
+            Never Waste 20 Minutes Asking <span class="text-gradient-fashion italic">"Kya Pehnu?"</span> Again.
+          </h1>
+
+          <p class="text-stone-600 text-base sm:text-lg leading-relaxed font-normal">
+            Digitize your wardrobe, synthesize climate data, and receive personalized outfit recommendations tailored to your occasion, mood, and personal style DNA.
+          </p>
+
+          <!-- Interactive AI Stylist Selector Box -->
+          <div class="fashion-card p-6 bg-white border border-[#e5e2dd] shadow-lg">
+            <h3 class="font-headline font-bold text-lg text-[#131e3a] mb-4 flex items-center gap-2">
+              <i class="fas fa-sliders text-[#c86d51]"></i> AI Outfit Generator
+            </h3>
+
+            <div class="space-y-4">
+              <div>
+                <label class="block text-xs font-mono text-stone-500 uppercase tracking-wider mb-1.5">Select Occasion</label>
+                <select id="occasion-select" class="w-full bg-[#faf7f2] border border-[#e5e2dd] rounded-xl px-4 py-3 text-stone-900 font-medium text-sm focus:outline-none focus:border-[#c86d51]">
+                  <option value="wedding">Sangeet / Wedding Guest (Indo-Western)</option>
+                  <option value="work">Work Presentation / AC Office (Power Chic)</option>
+                  <option value="party">Cocktail &amp; Night Out (Glamour Statement)</option>
+                  <option value="casual">Sunset Brunch &amp; Casual Day Out</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-mono text-stone-500 uppercase tracking-wider mb-1.5">Sourcing Mode</label>
+                  <select class="w-full bg-[#faf7f2] border border-[#e5e2dd] rounded-xl px-3 py-2.5 text-stone-800 text-xs font-medium focus:outline-none">
+                    <option>Hybrid (My Closet + Shop)</option>
+                    <option>My Wardrobe Only</option>
+                    <option>Shoppable Looks Only</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-mono text-stone-500 uppercase tracking-wider mb-1.5">Aesthetic Mood</label>
+                  <select class="w-full bg-[#faf7f2] border border-[#e5e2dd] rounded-xl px-3 py-2.5 text-stone-800 text-xs font-medium focus:outline-none">
+                    <option>Royal Heritage &amp; Chic</option>
+                    <option>Quiet Luxury Minimalist</option>
+                    <option>Boho Fluid</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Hero Display: Ensemble of the Day Card -->
+        <div id="ai-result-card" class="lg:col-span-6">
+          <div class="fashion-card p-6 bg-white border border-[#c86d51]/40 shadow-xl relative">
+            
+            <!-- AI Score Badge -->
+            <div class="flex justify-between items-center mb-6">
+              <span class="px-3 py-1 bg-[#131e3a] text-white rounded-full text-xs font-mono font-bold tracking-wider uppercase">
+                Ensemble of the Day
+              </span>
+              <div class="flex items-center gap-1 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+                <i class="fas fa-star text-amber-500 text-xs"></i>
+                <span class="font-mono text-xs font-bold text-amber-900">AI Match: <strong id="ai-match-score" class="text-[#c86d51]">98%</strong></span>
+              </div>
+            </div>
+
+            <!-- Featured Outfit Header -->
+            <div class="mb-6">
+              <h3 id="ai-outfit-title" class="font-headline font-bold text-2xl text-[#131e3a] mb-1">Indo-Western Sunset Muse</h3>
+              <p id="ai-weather-sync" class="text-xs font-mono text-[#c86d51]"><i class="fas fa-cloud-sun mr-1"></i> 27°C Sunny • Breathable Silk &amp; Georgette</p>
+            </div>
+
+            <!-- Outfit Component Pieces List -->
+            <div id="ai-items-list" class="space-y-3 mb-6">
+              <!-- Rendered dynamically by app.js -->
+              <div class="p-3.5 bg-stone-50 rounded-xl border border-stone-200 flex items-center justify-between">
+                <div>
+                  <span class="font-headline font-bold text-sm text-stone-900 block">Chanderi Silk Embroidered Kurta</span>
+                  <span class="text-xs font-mono text-emerald-700 font-semibold">Owned in Closet</span>
+                </div>
+                <span class="font-mono text-xs font-bold text-stone-800">Ref #ITEM-101</span>
+              </div>
+              <div class="p-3.5 bg-stone-50 rounded-xl border border-stone-200 flex items-center justify-between">
+                <div>
+                  <span class="font-headline font-bold text-sm text-stone-900 block">Flared Ivory Sharara Pants</span>
+                  <span class="text-xs font-mono text-amber-700">Shoppable • Torani</span>
+                </div>
+                <span class="font-mono text-xs font-bold text-stone-800">₹8,500</span>
+              </div>
+            </div>
+
+            <!-- AI Rationale Note -->
+            <div class="p-4 bg-[#faf7f2] rounded-xl border border-[#e5e2dd] mb-6">
+              <span class="text-xs font-mono text-[#131e3a] font-bold block mb-1">
+                <i class="fas fa-brain text-[#c86d51] mr-1"></i> AI Stylist Rationale:
+              </span>
+              <p id="ai-rationale" class="text-xs text-stone-600 leading-relaxed font-sans">
+                Selected for warm afternoon lighting and indoor-outdoor wedding reception flow. Breathable natural weave keeps thermal comfort high.
+              </p>
+            </div>
+
+            <!-- Action Button -->
+            <button class="w-full py-3.5 bg-[#131e3a] hover:bg-[#00051c] text-white font-medium text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+              <i class="fas fa-check"></i> Wear This Outfit Today
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WARDROBE HEALTH & ANALYTICS OVERVIEW -->
+  <section id="analytics" class="py-12 bg-white border-b border-[#e5e2dd]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        
+        <div class="p-5 bg-[#faf7f2] rounded-2xl border border-[#e5e2dd]">
+          <span class="text-xs font-mono text-stone-500 uppercase tracking-wider block mb-1">Closet Utilization</span>
+          <span class="font-headline font-bold text-3xl text-[#131e3a]">68%</span>
+          <span class="text-[11px] font-mono text-emerald-700 block mt-1"><i class="fas fa-arrow-up"></i> +12% vs last month</span>
+        </div>
+
+        <div class="p-5 bg-[#faf7f2] rounded-2xl border border-[#e5e2dd]">
+          <span class="text-xs font-mono text-stone-500 uppercase tracking-wider block mb-1">Underworn Treasures</span>
+          <span class="font-headline font-bold text-3xl text-[#c86d51]">5 Items</span>
+          <span class="text-[11px] font-mono text-stone-500 block mt-1">Inactive for 30+ days</span>
+        </div>
+
+        <div class="p-5 bg-[#faf7f2] rounded-2xl border border-[#e5e2dd]">
+          <span class="text-xs font-mono text-stone-500 uppercase tracking-wider block mb-1">Avg Cost-Per-Wear</span>
+          <span class="font-headline font-bold text-3xl text-amber-700">₹240</span>
+          <span class="text-[11px] font-mono text-stone-500 block mt-1">High-rotation staples</span>
+        </div>
+
+        <div class="p-5 bg-[#faf7f2] rounded-2xl border border-[#e5e2dd]">
+          <span class="text-xs font-mono text-stone-500 uppercase tracking-wider block mb-1">Saved Ensembles</span>
+          <span class="font-headline font-bold text-3xl text-[#131e3a]">18 Looks</span>
+          <span class="text-[11px] font-mono text-stone-500 block mt-1">Ready for upcoming trips</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DIGITAL CLOSET ORGANIZER -->
+  <section id="closet" class="py-16 border-b border-[#e5e2dd]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+        <div>
+          <span class="font-mono text-xs text-[#c86d51] uppercase tracking-widest block mb-1">// MY DIGITAL CLOSET</span>
+          <h2 class="font-headline font-bold text-3xl sm:text-4xl text-[#131e3a]">Your Digitized Wardrobe</h2>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap gap-2 mt-4 md:mt-0 font-mono text-xs">
+          <button onclick="filterClosetCategory('all')" class="closet-tab-btn px-4 py-2 rounded-full bg-indigo text-white font-semibold">All Items</button>
+          <button onclick="filterClosetCategory('ethnic')" class="closet-tab-btn px-4 py-2 rounded-full bg-stone-100 text-stone-700 hover:bg-stone-200">Ethnic &amp; Fusion</button>
+          <button onclick="filterClosetCategory('bottoms')" class="closet-tab-btn px-4 py-2 rounded-full bg-stone-100 text-stone-700 hover:bg-stone-200">Bottoms</button>
+          <button onclick="filterClosetCategory('outerwear')" class="closet-tab-btn px-4 py-2 rounded-full bg-stone-100 text-stone-700 hover:bg-stone-200">Outerwear</button>
+          <button onclick="filterClosetCategory('footwear')" class="closet-tab-btn px-4 py-2 rounded-full bg-stone-100 text-stone-700 hover:bg-stone-200">Footwear</button>
+        </div>
+      </div>
+
+      <!-- Closet Grid -->
+      <div id="closet-grid" class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <!-- Dynamically rendered by app.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SHOP THE LOOK & LOOKBOOK -->
+  <section id="lookbook" class="py-16 bg-white border-b border-[#e5e2dd]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="font-mono text-xs text-[#c86d51] uppercase tracking-widest block mb-2">// CURATED FASHION ISSUE</span>
+        <h2 class="font-headline font-bold text-3xl sm:text-4xl text-[#131e3a]">Shop The Look &amp; Synergy Pairs</h2>
+        <p class="text-stone-600 text-sm mt-2">
+          Discover high-fashion ensembles that pair directly with garments already in your digital closet.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        
+        <!-- Look 1 -->
+        <div class="fashion-card overflow-hidden">
+          <div class="relative aspect-fashion bg-stone-100">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Quiet Luxury Linen Set" class="w-full h-full object-cover">
+            <span class="absolute top-3 right-3 gold-badge px-3 py-1 rounded-full text-xs font-mono font-bold">96% Synergy</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-headline font-bold text-xl text-stone-900 mb-2">Quiet Luxury Linen Set</h3>
+            <p class="text-xs text-stone-600 mb-4">Combines your Ivory Linen Blazer with shoppable silk trousers from FableStreet.</p>
+            <button class="w-full py-2.5 bg-[#131e3a] text-white text-xs font-mono uppercase tracking-wider rounded-xl hover:bg-[#c86d51] transition-colors">
+              Explore Synergy Pair
+            </button>
+          </div>
+        </div>
+
+        <!-- Look 2 -->
+        <div class="fashion-card overflow-hidden">
+          <div class="relative aspect-fashion bg-stone-100">
+            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80" alt="Monsoon Terracotta Fusion" class="w-full h-full object-cover">
+            <span class="absolute top-3 right-3 gold-badge px-3 py-1 rounded-full text-xs font-mono font-bold">98% Synergy</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-headline font-bold text-xl text-stone-900 mb-2">Terracotta Fusion Evening</h3>
+            <p class="text-xs text-stone-600 mb-4">Chanderi Kurta paired with Torani sharara bottoms and gold statement jewelry.</p>
+            <button class="w-full py-2.5 bg-[#131e3a] text-white text-xs font-mono uppercase tracking-wider rounded-xl hover:bg-[#c86d51] transition-colors">
+              Explore Synergy Pair
+            </button>
+          </div>
+        </div>
+
+        <!-- Look 3 -->
+        <div class="fashion-card overflow-hidden">
+          <div class="relative aspect-fashion bg-stone-100">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" alt="Resort Minimalist Chic" class="w-full h-full object-cover">
+            <span class="absolute top-3 right-3 gold-badge px-3 py-1 rounded-full text-xs font-mono font-bold">95% Synergy</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-headline font-bold text-xl text-stone-900 mb-2">Resort Minimalist Chic</h3>
+            <p class="text-xs text-stone-600 mb-4">Fluid summer kaftan paired with woven leather flats and gold hoop earrings.</p>
+            <button class="w-full py-2.5 bg-[#131e3a] text-white text-xs font-mono uppercase tracking-wider rounded-xl hover:bg-[#c86d51] transition-colors">
+              Explore Synergy Pair
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#131e3a] text-stone-300 font-mono text-xs py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-stone-700">
+        <div class="md:col-span-2 space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-[#c86d51] flex items-center justify-center text-white">
+              <i class="fas fa-shirt"></i>
+            </div>
+            <span class="font-headline font-bold text-xl text-white">KYA <span class="text-[#ffb59f]">PEHNU</span></span>
+          </div>
+          <p class="text-stone-400 text-xs font-sans max-w-sm">
+            AI-powered smart wardrobe organizer, outfit recommendation engine, and virtual personal stylist designed from Google Stitch UI.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white uppercase tracking-wider mb-3">Navigation</h4>
+          <ul class="space-y-2">
+            <li><a href="#hero" class="hover:text-amber-400">AI Studio</a></li>
+            <li><a href="#closet" class="hover:text-amber-400">Digital Closet</a></li>
+            <li><a href="#lookbook" class="hover:text-amber-400">Shop The Look</a></li>
+            <li><a href="#analytics" class="hover:text-amber-400">Wardrobe Health</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white uppercase tracking-wider mb-3">Stylist Sync</h4>
+          <ul class="space-y-2 text-stone-400">
+            <li><i class="fas fa-check text-emerald-400 mr-1"></i> Live Weather API</li>
+            <li><i class="fas fa-check text-emerald-400 mr-1"></i> Cost-Per-Wear Analytics</li>
+            <li><i class="fas fa-check text-emerald-400 mr-1"></i> Outfit Match Engine</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-stone-400">
+        <p>© 2026 Kya Pehnu AI Technologies Inc. Built with Google Stitch UI System.</p>
+        <p>Smart Wardrobe &amp; Virtual Outfit Stylist.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

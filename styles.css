@@ -1,0 +1,114 @@
+/* Google Stitch Generated Design System Tokens - Kya Pehnu */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* Stitch Design Tokens for Kya Pehnu */
+  --bg-surface: #faf7f2;
+  --bg-surface-bright: #fcf9f4;
+  --bg-surface-low: #f0ede9;
+  --bg-surface-high: #ebe8e3;
+  --bg-card: #ffffff;
+  
+  --primary-indigo: #131e3a;
+  --primary-dark: #00051c;
+  
+  --secondary-terracotta: #c86d51;
+  --secondary-light: #ffb59f;
+  --secondary-glow: rgba(200, 109, 81, 0.25);
+
+  --tertiary-gold: #d4af37;
+  --tertiary-light: #ffe088;
+  
+  --text-primary: #1c1c19;
+  --text-muted: #64656c;
+  --border-light: #e5e2dd;
+  --border-accent: rgba(200, 109, 81, 0.3);
+
+  /* Typography */
+  --font-headline: 'Playfair Display', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.font-headline {
+  font-family: var(--font-headline);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Luxury Fashion Cards */
+.fashion-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fashion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(200, 109, 81, 0.12);
+  border-color: var(--secondary-terracotta);
+}
+
+.card-indigo {
+  background: var(--primary-indigo);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient Touches */
+.terracotta-gradient {
+  background: linear-gradient(135deg, #c86d51 0%, #97472e 100%);
+}
+
+.gold-badge {
+  background: linear-gradient(135deg, #d4af37 0%, #b89320 100%);
+  color: #ffffff;
+}
+
+.text-gradient-fashion {
+  background: linear-gradient(135deg, #131e3a 0%, #c86d51 60%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Pill Badges */
+.fashion-pill {
+  background: rgba(200, 109, 81, 0.1);
+  border: 1px solid var(--border-accent);
+  color: var(--secondary-terracotta);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-surface-low);
+}
+::-webkit-scrollbar-thumb {
+  background: #c6c6ce;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-terracotta);
+}
+
+/* Image Aspect Ratios */
+.aspect-fashion {
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
